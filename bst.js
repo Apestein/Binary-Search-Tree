@@ -49,7 +49,6 @@ function Tree(arr) {
       while (nextLargest.left) {
         nextLargest = nextLargest.left
       }
-      console.log(nextLargest)
       let previousNode = findPrev(nextLargest.data)
       node.data = nextLargest.data
       if (nextLargest.right) node.right = nextLargest.right
@@ -67,7 +66,52 @@ function Tree(arr) {
     }
   }
 
-  return { root, find, findPrev, insert, deleteNode }
+  function levelOrder() {
+    if (!root) return
+    const queue = [root]
+    while (queue.length) {
+      const node = queue.shift()
+      console.log(node.data)
+      if (node.left) queue.push(node.left)
+      if (node.right) queue.push(node.right)
+    }
+  }
+
+  function preOrder(node = root) {
+    if (!node) return
+
+    console.log(node.data)
+    preOrder(node.left)
+    preOrder(node.right)
+  }
+
+  function inOrder(node = root) {
+    if (!node) return
+
+    inOrder(node.left)
+    console.log(node.data)
+    inOrder(node.right)
+  }
+
+  function postOrder(node = root) {
+    if (!node) return
+
+    postOrder(node.left)
+    postOrder(node.right)
+    console.log(node.data)
+  }
+
+  return {
+    root,
+    find,
+    findPrev,
+    insert,
+    deleteNode,
+    levelOrder,
+    preOrder,
+    inOrder,
+    postOrder,
+  }
 }
 
 function buildTree(arr, start, end) {
@@ -96,5 +140,5 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 
 //const tree = Tree([20, 30, 32, 34, 36, 40, 50, 60, 65, 70, 75, 80, 85])
 const tree = Tree([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
-tree.deleteNode(2)
+tree.postOrder()
 prettyPrint(tree.root)
